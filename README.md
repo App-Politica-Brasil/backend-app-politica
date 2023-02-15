@@ -26,6 +26,32 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Commit Types
+
+As configured on [`commitlint`](https://commitlint.js.org/#/), it must be one of the following:
+
+- **feat**: A new feature
+- **fix**: A bug fix
+- **docs**: Documentation only changes
+- **style**: Changes that do not affect the meaning of the code _(white-space, formatting, missing semi-colons, etc)_
+- **ref**: A code change that neither fixes a bug nor adds a feature
+- **test**: Adding missing tests or correcting existing tests
+- **revert**: A commit that reverts a previous commit
+- **chore**: Changes to the build process or auxiliary tools and libraries such as documentation generation
+- **ci**: Changes to our CI configuration files and scripts _(example scopes: Circle, BrowserStack, SauceLabs)_
+- **perf**: A code change that improves performance
+- **git**: Changes on git files, such as [`.gitignore`](https://git-scm.com/docs/gitignore)
+
+
+## Coding Best Practices
+
+- Write your code in [TypeScript](typescriptlang.org).
+- Configure [ESLint](https://eslint.org/) on [your](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) [code](https://github.com/leafgarland/typescript-vim) [editor](https://marketplace.visualstudio.com/items?itemName=eg2.tslint).
+- Use [Npm](https://www.npmjs.com/) to manage dependencies.
+- Use English for coding, commenting and committing.
+- Write [readable](https://youtu.be/56mETnrByBM) and [S.O.L.I.D.](https://scotch.io/bar-talk/s-o-l-i-d-the-first-five-principles-of-object-oriented-design) code.
+
+
 ## Installation
 
 ```bash
@@ -71,3 +97,5 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+
