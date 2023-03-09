@@ -8,7 +8,21 @@ datasource db {
 }
 
 model user {
-  user_id    Int    @id @default(autoincrement())
-  user_name  String @db.VarChar(255)
-  user_email String @db.VarChar(255)
+  user_id           Int       @id @default(autoincrement())
+  user_type_id      Int
+  user_name         String    @db.VarChar(50)
+  user_email        String    @db.VarChar(50)
+  user_password     String    @db.VarChar(255)
+  creation_date     DateTime  @default(now()) @db.DateTime(0)
+  user_achievements String    @db.VarChar(255)
+  user_type         user_type @relation(fields: [user_type_id], references: [user_type_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_user_type_user")
+
+  @@index([user_type_id], map: "FK_user_type_user")
+}
+
+model user_type {
+  user_type_id     Int    @id @default(autoincrement())
+  user_type_name   String @db.VarChar(50)
+  user_type_status String @db.VarChar(50)
+  user             user[]
 }
