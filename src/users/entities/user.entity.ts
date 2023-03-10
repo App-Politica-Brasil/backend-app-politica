@@ -7,5 +7,5 @@ export class User implements Prisma.userUncheckedCreateInput {
     user_email: string;
     user_password: string;
     creation_date?: string | Date;
-    user_achievements: string;
+    user_achievements?: string;
 }

@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+    ConflictException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -11,37 +15,51 @@ export class UsersService {
             ...createUserDto,
         };
 
+        //Email Verification:
+        const existingUser = await this.prisma.user.findUnique({
+            where: { user_email: data.user_email },
+        });
+
+        if (existingUser) {
+            throw new ConflictException(
+                'Email ja cadastrado em nossa base de dados',
+            );
+        }
+
         const createdUser = await this.prisma.user.create({ data });
 
         return {
             ...createdUser,
+            //Todo: Make a password encrypt
             //user_password: undefined,
         };
     }
 
     async findAll() {
-        return this.prisma.user.findMany();
+        return await this.prisma.user.findMany();
     }
 
-    findOne(user_id: number) {
-        const user = this.prisma.user.findUnique({
+    async findOne(user_id: number) {
+        const data = await this.prisma.user.findUnique({
             where: { user_id },
         });
-        if (!user) {
-            //throw new NotFoundException('Usuario não encontrado');
+
+        if (!data) {
+            return new NotFoundException('Usuario não encontrado');
         }
-        return user;
+
+        return data;
     }
 
-    update(user_id: number, updateUserDto: UpdateUserDto) {
-        return this.prisma.user.update({
+    async update(user_id: number, updateUserDto: UpdateUserDto) {
+        return await this.prisma.user.update({
             where: { user_id },
             data: updateUserDto,
         });
     }
 
-    remove(user_id: number) {
-        return this.prisma.user.delete({
+    async remove(user_id: number) {
+        return await this.prisma.user.delete({
             where: { user_id },
         });
     }
