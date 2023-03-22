@@ -22,7 +22,7 @@ export class AuthController {
     //To Do: usar create user
     @Post('register')
     async register(@Body() body: AuthRegisterDto) {
-        return this.usersService.create(body);
+        return this.authService.register(body);
     }
 
     @Post('forget')
