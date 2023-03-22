@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+    BadRequestException,
+    Injectable,
+    UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from 'src/users/entities/user.entity';
@@ -32,7 +36,16 @@ export class AuthService {
     }
 
     async checkToken(token: string) {
-        return this.jwtService.verify;
+        try {
+            const data = this.jwtService.verify(token, {
+                audience: 'users',
+                issuer: 'login',
+            });
+
+            return { data };
+        } catch (e) {
+            throw new BadRequestException();
+        }
     }
 
     async login(user_email: string, user_password: string) {
@@ -78,5 +91,14 @@ export class AuthService {
     async register(data: AuthRegisterDto) {
         const user = await this.userService.create(data);
         return this.createToken(user);
+    }
+
+    async isValidToken(token: string) {
+        try {
+            this.checkToken(token);
+            return true;
+        } catch (e) {
+            return false;
+        }
     }
 }
