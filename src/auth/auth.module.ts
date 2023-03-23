@@ -9,7 +9,7 @@ import { UsersService } from 'src/users/users.service';
 @Module({
     imports: [
         JwtModule.register({
-            secret: `%f23!3b#B$2)^aJ7U85GVe8FNRHJ2njm`,
+            secret: process.env.JWT_SECRET,
         }),
         UsersModule,
         PrismaModule,
