@@ -5,6 +5,7 @@ import { AuthController } from './auth.controller';
 import { UsersModule } from 'src/users/users.module';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { UsersService } from 'src/users/users.service';
+import { FileModule } from 'src/file/file.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { UsersService } from 'src/users/users.service';
         }),
         UsersModule,
         PrismaModule,
+        FileModule,
     ],
     exports: [UsersModule, PrismaModule],
     providers: [AuthService, UsersService],
