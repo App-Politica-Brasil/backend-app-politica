@@ -20,7 +20,8 @@ import { AuthLoginDto } from './dto/auth-login.dto';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { AuthResetDto } from './dto/auth-reset.dto';
 import { join } from 'path';
-import { FileService } from 'src/file/file.service';
+import { FileService, PhotoService } from 'src/file/file.service';
+import { FirebaseStorageService } from 'src/file/firebase.service';
 
 @Controller('auth')
 export class AuthController {
@@ -28,6 +29,8 @@ export class AuthController {
         private readonly usersService: UsersService,
         private readonly authService: AuthService,
         private readonly fileService: FileService,
+        private readonly firebaseStorageService: FirebaseStorageService,
+        private readonly photoService: PhotoService,
     ) {}
 
     @Post('login')
@@ -88,5 +91,32 @@ export class AuthController {
         }
 
         return { sucess: true, photo };
+    }
+
+    @Post('avatar')
+    @UseInterceptors(FileInterceptor('file'))
+    @UseGuards(AuthGuard)
+    async uploadAvatar(
+        @User() user,
+        @UploadedFile(
+            new ParseFilePipe({
+                validators: [
+                    new FileTypeValidator({ fileType: 'image/png' }),
+                    new MaxFileSizeValidator({ maxSize: 1024 * 50 }),
+                ],
+            }),
+        )
+        file: Express.Multer.File,
+    ) {
+        if (!file) {
+            throw new BadRequestException('File not found');
+        }
+        const fileName = await this.firebaseStorageService.uploadFile(
+            user.user_id,
+            file,
+        );
+        const photo = await this.photoService.create(user.user_id, fileName);
+
+        return { success: true, photo };
     }
 }
