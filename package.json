@@ -22,7 +22,9 @@
         "heroku-postbuild": "NODE_ENV=dev npm install --omit --no-shrinkwrap && npm run build"
     },
     "dependencies": {
+        "@google-cloud/storage": "^6.9.4",
         "@nestjs-modules/mailer": "^1.8.1",
+        "@nestjs/axios": "^2.0.0",
         "@nestjs/common": "^9.3.9",
         "@nestjs/config": "^2.3.1",
         "@nestjs/core": "^9.3.9",
@@ -34,6 +36,7 @@
         "bcrypt": "^5.1.0",
         "class-transformer": "^0.5.1",
         "class-validator": "^0.14.0",
+        "firebase-admin": "^11.5.0",
         "nodemailer": "^6.9.1",
         "pug": "^3.0.2",
         "reflect-metadata": "^0.1.13",

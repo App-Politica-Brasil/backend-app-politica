@@ -15,6 +15,7 @@ model user {
   user_password     String    @db.VarChar(255)
   creation_date     DateTime? @default(now()) @db.DateTime(0)
   user_achievements String?   @db.VarChar(255)
+  photo             photo?
   user_type         user_type @relation(fields: [user_type_id], references: [user_type_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_user_type_user")
 
   @@index([user_type_id], map: "FK_user_type_user")
@@ -25,4 +26,11 @@ model user_type {
   user_type_name   String @db.VarChar(50)
   user_type_status String @db.VarChar(50)
   user             user[]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model photo {
+  user_id Int    @id
+  photo   String @db.Text
+  user    user   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_photo_user_id")
 }
